@@ -68,7 +68,7 @@ class DB_Type_Pgsql_Row extends DB_Type_Abstract_Container
         // Check for immediate trailing ')'.
         $c = $this->_charAfterSpaces($str, $p);
         if ($c == ')') {
-        	if (list ($field,) = each($this->_items)) {
+        	if ($field = key($this->_items)) {
                 throw new DB_Type_Exception_Common($this, "input", "field '$field' value", $str, $p);
             }
             $p++;
@@ -85,9 +85,11 @@ class DB_Type_Pgsql_Row extends DB_Type_Abstract_Container
             $c = $this->_charAfterSpaces($str, $p);
 
             // Check if we have more fields left.
-            if (!(list ($field, $type) = each($this->_items))) {
+            if (!($type = current($this->_items))) {
             	throw new DB_Type_Exception_Common($this, "input", "end of the row: no more fields left", $str, $p);
             }
+	        $field = key($this->_items);
+	        next($this->_items);
 
             // Always read a next element value.
             if ($c == ',' || $c == ')') {
