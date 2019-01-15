@@ -38,6 +38,8 @@ abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
 	 */
 	protected function _charAfterSpaces($str, &$p)
 	{
+		if (call_user_func(self::$_strlen, $str) === $p) return false;
+
         $p += strspn($str, " \t\r\n", $p);
         return call_user_func(self::$_substr, $str, $p, 1);
 	}
@@ -50,6 +52,7 @@ abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
 	 * @param string $native
 	 * @param string $for used for input customization in user defined descendant classes
 	 * @return mixed
+	 * @throws DB_Type_Exception_Common
 	 */
     public function input($native, $for='')
     {
