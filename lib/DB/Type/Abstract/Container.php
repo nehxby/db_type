@@ -8,23 +8,10 @@
 abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
 {
     protected $_item;
-    protected static $_substr = null;
-    protected static $_strlen = null;
 
     public function __construct(?DB_Type_Abstract_Base $item = null)
     {
         $this->_item = $item;
-        $this->_init();
-    }
-
-    /**
-     * Inits some functions.
-     *
-     */
-    protected function _init()
-    {
-       self::$_substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
-       self::$_strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
     }
 
 	/**
@@ -38,10 +25,10 @@ abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
 	 */
     protected function _charAfterSpaces($str, &$p)
     {
-        if (call_user_func(self::$_strlen, $str) === $p) return false;
+        if (strlen($str) === $p) return false;
 
         $p += strspn($str, " \t\r\n", $p);
-        return call_user_func(self::$_substr, $str, $p, 1);
+        return substr($str, $p, 1);
     }
 
 	/**
@@ -66,7 +53,7 @@ abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
 
         $pos = 0;
         $value = $this->_parseInput($native, $pos, $for);
-        if ($pos != call_user_func(self::$_strlen, $native)) {
+        if ($pos != strlen($native)) {
             throw new DB_Type_Exception_Common($this, "input", "end of string", $native, $pos);
         }
         return $value;

@@ -57,7 +57,7 @@ class DB_Type_Pgsql_Hstore extends DB_Type_Abstract_Container
 
             // '=>' sequence.
             $this->_charAfterSpaces($str, $p);
-            if (call_user_func(self::$_substr, $str, $p, 2) != '=>') {
+            if (substr($str, $p, 2) != '=>') {
                 throw new DB_Type_Exception_Common($this, "input", "'=>'", $str, $p);
             }
             $p += 2;
@@ -77,12 +77,12 @@ class DB_Type_Pgsql_Hstore extends DB_Type_Abstract_Container
 
     private function _readString($str, &$p)
     {
-    	$c = call_user_func(self::$_substr, $str, $p, 1);
+    	$c = substr($str, $p, 1);
 
         // Unquoted string.
         if ($c != '"') {
             $len = strcspn($str, " \r\n\t,=>", $p);
-            $value = call_user_func(self::$_substr, $str, $p, $len);
+            $value = substr($str, $p, $len);
             $p += $len;
             return stripcslashes($value);
         }
@@ -91,7 +91,7 @@ class DB_Type_Pgsql_Hstore extends DB_Type_Abstract_Container
         $m = null;
         if (preg_match('/" ((?' . '>[^"\\\\]+|\\\\.)*) "/Asx', $str, $m, 0, $p)) {
             $value = stripcslashes($m[1]);
-            $p += call_user_func(self::$_strlen, $m[0]);
+            $p += strlen($m[0]);
             return $value;
         }
 

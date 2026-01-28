@@ -41,7 +41,7 @@ class DB_Type_Pgsql_Array extends DB_Type_Abstract_Container
             if ($e === false) {
                 throw new DB_Type_Exception_Common($this, "input", "balanced quoted or unquoted string or sub-array", $str, $p);
             }
-            $inner = call_user_func(self::$_substr, $str, $p, $e - $p);
+            $inner = substr($str, $p, $e - $p);
             $p = $e + 1;
             if (!preg_match_all('/([\d.]+|null)/is', $inner, $m)) return array();
             foreach ($m[0] as $v) {
@@ -81,7 +81,7 @@ class DB_Type_Pgsql_Array extends DB_Type_Abstract_Container
             // Unquoted string.
             if ($c !== '"' && $c !== false) {
             	$len = strcspn($str, ",}", $p);
-            	$v = stripcslashes(call_user_func(self::$_substr, $str, $p, $len));
+            	$v = stripcslashes(substr($str, $p, $len));
             	if (!strcasecmp($v, "null")) {
             		$result[] = null;
             	} else {
@@ -95,7 +95,7 @@ class DB_Type_Pgsql_Array extends DB_Type_Abstract_Container
             $m = null;
             if (preg_match('/" ((?' . '>[^"\\\\]+|\\\\.)*) "/Asx', $str, $m, 0, $p)) {
                 $result[] = $this->_item->input(stripcslashes($m[1]), $for);
-                $p += intval(call_user_func(self::$_strlen, $m[0]));
+                $p += strlen($m[0]);
                 continue;
             }
 

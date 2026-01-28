@@ -99,14 +99,14 @@ class DB_Type_Pgsql_Row extends DB_Type_Abstract_Container
             } else if ($c != '"') {
                 // Unquoted string. NULL here is treated as "NULL" string, but NOT as a null value!
                 $len = strcspn($str, ",)", $p);
-                $v = call_user_func(self::$_substr, $str, $p, $len);
+                $v = substr($str, $p, $len);
                 $result[$field] = $type->input($v, $for);
                 $p += $len;
             } else if (preg_match('/" ((?' . '>[^"]+|"")*) "/Asx', $str, $m, 0, $p)) {
                 // Quoted string.
                	$v = str_replace(array('""', '\\\\'), array('"', '\\'), $m[1]);
                	$result[$field] = $type->input($v, $for);
-                $p += intval(call_user_func(self::$_strlen, $m[0]));
+                $p += strlen($m[0]);
             } else {
                 // Error.
                 throw new DB_Type_Exception_Common($this, "input", "balanced quoted or unquoted string", $str, $p);
