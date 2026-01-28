@@ -8,7 +8,7 @@ abstract class DB_Type_Abstract_Wrapper extends DB_Type_Abstract_Base
 {
     protected $_item;
 
-    public function __construct(DB_Type_Abstract_Base $item = null)
+    public function __construct(?DB_Type_Abstract_Base $item = null)
     {
         $this->_item = $item? $item : new DB_Type_String();
     }

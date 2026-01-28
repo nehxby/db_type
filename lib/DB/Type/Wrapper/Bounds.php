@@ -12,7 +12,7 @@ class DB_Type_Wrapper_Bounds extends DB_Type_Abstract_Wrapper
 	private $_min;
 	private $_max;
 
-	public function __construct(DB_Type_Abstract_Base $item = null, $min = null, $max = null)
+	public function __construct(?DB_Type_Abstract_Base $item = null, $min = null, $max = null)
 	{
 		parent::__construct($item);
 		$this->_min = $min;
@@ -24,6 +24,9 @@ class DB_Type_Wrapper_Bounds extends DB_Type_Abstract_Wrapper
 		return $native;
 	}
 
+	/**
+	 * @throws DB_Type_Exception_Bounds
+	 */
 	protected function _output($value)
 	{
 		$_value = floatval($value);

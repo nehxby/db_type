@@ -4,7 +4,7 @@ class DB_Type_Wrapper_Length extends DB_Type_Abstract_Wrapper
     private $_min;
     private $_max;
 
-    public function __construct(DB_Type_Abstract_Base $item = null, $min = null, $max = null)
+    public function __construct(?DB_Type_Abstract_Base $item = null, $min = null, $max = null)
     {
         parent::__construct($item);
         $this->_max = $max;

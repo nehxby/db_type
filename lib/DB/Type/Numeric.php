@@ -27,7 +27,7 @@ class DB_Type_Numeric extends DB_Type_Abstract_Primitive
 		    $parts = explode('.', (string)$value);
 		    if (
                 $this->_width !== null
-                && isset($parts[0])
+                //&& isset($parts[0])
                 && strlen($parts[0]) > $this->_width
             ) {
 		        throw new DB_Type_Exception_Numeric($this, $value);

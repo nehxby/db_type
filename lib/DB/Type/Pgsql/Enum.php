@@ -15,6 +15,9 @@ class DB_Type_Pgsql_Enum extends DB_Type_Abstract_Primitive {
 		return $this->_items;
 	}
 
+	/**
+	 * @throws DB_Type_Exception_Enum
+	 */
 	public function checkValue($value)
 	{
 		if ($value && !in_array($value, $this->_items))

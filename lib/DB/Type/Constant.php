@@ -4,7 +4,7 @@ class DB_Type_Constant extends DB_Type_Abstract_Primitive
 	private $_value;
 	private $_item;
 
-	public function __construct($value, DB_Type_Abstract_Base $item = null)
+	public function __construct($value, ?DB_Type_Abstract_Base $item = null)
 	{
 		$this->_item = $item;
 		if ($item) {
@@ -16,7 +16,7 @@ class DB_Type_Constant extends DB_Type_Abstract_Primitive
 
 	public function output($value)
 	{
-		$value;
+		//$value;
         return $this->_value;
 	}
 

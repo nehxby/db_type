@@ -7,7 +7,7 @@ class DB_Type_Wrapper_NullToDefault extends DB_Type_Abstract_Base
 	private $_value;
 	private $_item;
 
-	public function __construct($value, DB_Type_Abstract_Base $item = null)
+	public function __construct($value, ?DB_Type_Abstract_Base $item = null)
 	{
 		$this->_item = $item? $item : new DB_Type_String();
 		$this->_value = $value;

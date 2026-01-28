@@ -11,7 +11,7 @@ abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
     protected static $_substr = null;
     protected static $_strlen = null;
 
-    public function __construct(DB_Type_Abstract_Base $item = null)
+    public function __construct(?DB_Type_Abstract_Base $item = null)
     {
         $this->_item = $item;
         $this->_init();
@@ -23,9 +23,9 @@ abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
      */
     protected function _init()
     {
-		self::$_substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
-		self::$_strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
-	}
+       self::$_substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
+       self::$_strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
+    }
 
 	/**
 	 * Move $p to skip spaces from position $p of the string.
@@ -34,35 +34,35 @@ abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
 	 *
 	 * @param string $str
 	 * @param int $p
-	 * @return string
+	 * @return string|false
 	 */
-	protected function _charAfterSpaces($str, &$p)
-	{
-		if (call_user_func(self::$_strlen, $str) === $p) return false;
+    protected function _charAfterSpaces($str, &$p)
+    {
+        if (call_user_func(self::$_strlen, $str) === $p) return false;
 
         $p += strspn($str, " \t\r\n", $p);
         return call_user_func(self::$_substr, $str, $p, 1);
-	}
+    }
 
 	/**
 	 * Parse a native value into PHP variable.
 	 * Throws exception if parsing process is finished
 	 * before the string is ended.
 	 *
-	 * @param string $native
+	 * @param string|array|null $native
 	 * @param string $for used for input customization in user defined descendant classes
 	 * @return mixed
 	 * @throws DB_Type_Exception_Common
 	 */
     public function input($native, $for='')
     {
-    	if ($native === null) {
-    		return null;
-    	}
+        if ($native === null) {
+            return null;
+        }
 
-		if ( is_array($native) ) {
-			return $this->_itemsInput($native, $for);
-		}
+        if ( is_array($native) ) {
+            return $this->_itemsInput($native, $for);
+        }
 
         $pos = 0;
         $value = $this->_parseInput($native, $pos, $for);
@@ -78,7 +78,7 @@ abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
 	 * parsed data.  This method is used from within other
 	 * types.
 	 *
-	 * @param string $native
+	 * @param string|array $native
 	 * @param int $pos
 	 * @param string $for used for input customization in user defined descendant classes
 	 * @return mixed
@@ -95,5 +95,5 @@ abstract class DB_Type_Abstract_Container extends DB_Type_Abstract_Base
 	 * @param string $for
 	 * @return array
 	 */
-	abstract protected function _itemsInput(array $native, $for = '');
+    abstract protected function _itemsInput(array $native, $for = '');
 }

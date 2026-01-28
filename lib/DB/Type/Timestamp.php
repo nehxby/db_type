@@ -26,10 +26,12 @@ class DB_Type_Timestamp extends DB_Type_Abstract_Primitive
     		return NULL;
     	}
 		if ($this->_format) {
-			if ($this->_timezone) $date = new DateTime($native, $this->_timezone);
-			else $date = new DateTime($native);
-
-			if ($date === FALSE) return $native;
+			try {
+				if ($this->_timezone) $date = new DateTime($native, $this->_timezone);
+				else $date = new DateTime($native);
+			} catch (DateMalformedStringException) {
+				return $native;
+			}
 
 			return $date->format($this->_format);
 		}

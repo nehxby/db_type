@@ -3,7 +3,7 @@ class DB_Type_Wrapper_Trim extends DB_Type_Abstract_Wrapper
 {
 	private $_both;
 
-	public function __construct(DB_Type_Abstract_Base $item = null, $both = false)
+	public function __construct(?DB_Type_Abstract_Base $item = null, $both = false)
 	{
 		$this->_both = $both;
 		parent::__construct($item);

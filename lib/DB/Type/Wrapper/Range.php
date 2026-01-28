@@ -4,7 +4,7 @@ class DB_Type_Wrapper_Range extends DB_Type_Abstract_Wrapper
 	private $_keyFrom;
 	private $_keyTo;
 
-	public function __construct(DB_Type_Pgsql_Row $item = NULL, $min = 'value_from', $max = 'value_to')
+	public function __construct(DB_Type_Pgsql_Row $item, $min = 'value_from', $max = 'value_to')
 	{
 		parent::__construct($item);
 		$this->_keyTo = $max;
@@ -16,6 +16,9 @@ class DB_Type_Wrapper_Range extends DB_Type_Abstract_Wrapper
 		return $native;
 	}
 
+	/**
+	 * @throws DB_Type_Exception_Range
+	 */
 	protected function _output($value)
 	{
 		if (is_object($value)) $value = (array)$value;

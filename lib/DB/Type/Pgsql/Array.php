@@ -95,7 +95,7 @@ class DB_Type_Pgsql_Array extends DB_Type_Abstract_Container
             $m = null;
             if (preg_match('/" ((?' . '>[^"\\\\]+|\\\\.)*) "/Asx', $str, $m, 0, $p)) {
                 $result[] = $this->_item->input(stripcslashes($m[1]), $for);
-                $p += call_user_func(self::$_strlen, $m[0]);
+                $p += intval(call_user_func(self::$_strlen, $m[0]));
                 continue;
             }
 
